@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card bg-dark text-white">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<form class="form-horizontal" method="POST"	th:action="@{/condominio/salvar}" th:object="${condominio}">
+					<!-- div th:object="${locador}" th:remove="tag"-->
+					<div class="alert  alert-danger  alert-dismissible"
+						th:if="${#fields.hasAnyErrors()}">
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
+							role="alert">
+							<div>
+								<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+							</div>
+						</ul>
+					</div>
+					<div class="container">
+						<!-- Nav pills -->
+						<ul class="nav nav-pills" role="tablist">
+							<li class="nav-item"><a class="nav-link active"
+								data-toggle="pill" href="#dados">Dados</a></li>
+							<li><a class="nav-link" data-toggle="pill" href="#endereco">Endereco</a></li>
+						</ul>
+
+						<div class="tab-content">
+
+							<div id="dados" class="container tab-pane active">
+								<br>
+								<div class="row">
+
+									<div class="col-sm-4"
+										th:classappend="${#fields.hasErrors('razaoSocial')} ? has-error">
+										<label for="razaoSocial">Nome</label> <input type="text"
+											class="form-control" id="razaoSocial" th:field="*{razaoSocial}"
+											autofocus="autofocus" />
+									</div>
+
+									<div class="col-sm-4  form-group">
+										<label for="cnpj">CNPJ</label> <input type="text"
+											class="form-control" id="cnpj" disabled	th:field="*{cnpj}" />
+									</div>
+								</div>
+								<div class="row">
+								   <!-- 
+									<div class="col-sm-2 form-group">
+										<label for="datacadastro">Data de cadastro</label> 
+										<input type="date" class="form-control" id="datacadastro"
+											   th:field="*{datacadastro}" autocomplete="off"
+											   data-date-today-highlight="true" format=‘dd/mm/yyyy’ />
+									</div>  -->
+									
+									<div class="col-sm-2 form-group">
+										<label for="sindico">Sindico</label> <input
+											type="text" class="form-control" id="sindico"
+											th:field="*{sindico}" />
+									</div>
+								</div>
+							</div>
+
+							<div id="endereco" class="container tab-pane">
+								<br>
+								<!--  
+								<div class="row">
+
+									<div class="col-sm-4"
+										th:classappend="${#fields.hasErrors('endereco.logradouro')} ? has-error">
+										<label for="logradouro">Endereco</label> <input type="text"
+											class="form-control" id="logradouro" name="logradouro"
+											th:field="*{endereco.logradouro}" />
+
+									</div>
+
+									<div class="col-sm-3 form-group">
+										<label for="complemento">Complemento</label> <input
+											type="text" class="form-control" id="complemento"
+											name="complemento" th:field="*{complemento}" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-3 form-group">
+										<label for="endereco.logradouro">Bairro</label> <input
+											type="text" class="form-control" id="endereco.bairro"
+											name="endereco.bairro" th:field="*{endereco.bairro}" />
+									</div>
+									<div class="col-sm-3 form-group">
+										<label for="endereco.cidade">Cidade</label> <input type="text"
+											class="form-control" id="endereco.cidade"
+											name="endereco.cidade" th:field="*{endereco.cidade}" />
+									</div>
+									<div class="col-sm-3 form-group">
+										<label for="endereco.cep">Cep</label> <input type="text"
+											class="form-control js-cep" id="endereco.cep"
+											name="endereco.cep" th:field="*{endereco.cep}" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-3 form-group">
+										<label for="endereco.uf">UF</label> <input type="text"
+											class="form-control" id="endereco.uf" name="endereco.uf"
+											th:field="*{endereco.uf}" />
+									</div>
+								</div>
+							</div>-->
+						</div>
+					</div>
+					<!-- div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" th:value="${titulo}"
+								class="btn btn-primary btn-xs" />
+						</div>
+					</div-->
+
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<button type="submit" class="btn btn-primary btn-xs"
+								th:value="${titulo}">Salvar</button>
+							<a th:href="@{/condominio/listar}" class="btn btn-xs btn-danger">Cancelar</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"> </footer>
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/vendors/cliente.mascara-cpf-cnpj.js}"></script>
+	</th:block>
+
+</body>
+
+</html>

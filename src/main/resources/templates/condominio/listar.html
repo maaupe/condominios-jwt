@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body"></div>
+
+				<h4 class="card-title">
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/condominio/novo}"
+						class="btn btn-primary btn-xs">Novo Condominio</a>
+				</h4>
+				
+				<div class="alert alert-info my-4"
+					 th:if="${#lists.isEmpty(condominios)}"
+					 th:text="'Nao ha condominios cadastrados'"></div>
+					 
+				<table class="table table-bordered table-striped" id="dataTable">
+					<thead>
+						<tr>
+							<th class="text-center ">#</th>
+							<th class="text-center ">Nome completo</th>
+							<th class="text-center ">funções</th>
+						</tr>
+					</thead>
+					<tbody>
+					<!-- 
+						<tr th:each="condominio : ${condominios}">
+							<td class="text-center" th:text="${condominio.id}"></td>
+							<td class="text-left"  th:text="${condominio.nome}"></td>
+							<td class="text-center" >
+							      <a th:href="@{/condominio/editar/{id}(id=${condominio.id})}" class="btn btn-xs btn-primary" >
+							      <span class="glyphicon glyphicon-pencil" ></span></a>
+						
+							    <a th:href="@{/condominio/deletar/} + ${condominio.id}" 
+								onclick="return confirm('Quer realmente apagar?');"  class="btn btn-xs btn-danger">
+									      <span class="glyphicon glyphicon-trash"></span></a>
+									      
+								  <a th:href="@{/unidade/novo/} + ${unidade.id}" 
+								onclick="return confirm('Quer cadastrar uma nova unidade ?');"  class="btn btn-xs btn-primary">
+									      <span class="glyphicon glyphicon-home"></span></a>
+									      	      
+							</td>
+							
+						</tr>
+						<tr>
+							<td colspan="6" th:if="${#lists.isEmpty(locadores)}">Nenhum
+								Condominio foi encontrado</td>
+						</tr>-->  
+					</tbody>
+				</table>
+				<nav th:replace="layout/paginator-nav :: paginator"></nav>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
