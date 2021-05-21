@@ -1,6 +1,8 @@
 package br.com.condominio.app.modelo;
 
-import java.io.Serializable;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,18 +13,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 
-@Entity(name = "usuario")
-public class Usuario implements Serializable {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-	private static final long serialVersionUID = 1L;
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "usuarios", uniqueConstraints = {@UniqueConstraint(columnNames= {"username"}) })
+public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(length = 60, unique = true)
+	private String name;
+	
 	
 	@Column(length = 30, unique = true)
 	private String username;
@@ -32,88 +54,12 @@ public class Usuario implements Serializable {
 	
 	@Email
 	private String email;
+
 	
-	private Boolean enabled;
-	
-	@Transient
-	private String token;
-	
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
-	private List<Role> roles;
-		
-	
-	public Usuario() {
-	}
-	
-	public Usuario(String username, String password, String role, String email) {
-		this.username = username;
-		this.password = password;
-		this.email=username;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-
-
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-	
-	
-	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+	@JoinTable(name = "usuarios_roles", 
+				joinColumns = @JoinColumn(name="user_id"),
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles = new ArrayList<Role>();
 
 }

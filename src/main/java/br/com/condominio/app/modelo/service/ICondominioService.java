@@ -4,19 +4,28 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import br.com.condominio.app.controller.dto.CondominioDto;
 import br.com.condominio.app.modelo.Condominio;
 
 public interface ICondominioService {
 	
-	public void salvar(Condominio condominio);
-	public void deletarPorid(Long idCondominio);
-	public void deletar(Condominio condominio) ;
-	public List<Condominio> buscaPorNomeContendo(String nome);
-	public void alterar(Condominio condominio);
+	/*public List<Condominio> buscaPorNomeContendo(String nome);
 	public List<Condominio> buscaPorNomecomecandoPorIgnorandoMaisculo(String nome);
-	public Condominio BuscaPorId(Long idCondominio);
-	public List<Condominio> buscaTodos();
-	public Page<Condominio> BuscaTodosPaginados(Pageable pageable);
+	public Page<Condominio> BuscaTodosPaginados(Pageable pageable);*/
+	
+	public Boolean salvar(CondominioDto condominio);
+	public Boolean deletar(Long idCondominio);
+	public Boolean atualizar(CondominioDto condominio);
+	public CondominioDto BuscaPorId(Long idCondominio);
+	public List<CondominioDto> buscaTodos();
+	//public Page<CondominioDto> BuscaTodosPaginados(Pageable pageable);
+		
+	public List<CondominioDto> buscaDiaVenciento(int diaVencimento);
+	public List<CondominioDto> findByFiltro(Long idCondIni, Long idCondFinal );
+	
+	
 
 }

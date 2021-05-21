@@ -1,24 +1,29 @@
 package br.com.condominio.app.modelo;
 
-import java.io.Serializable;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "authorities", uniqueConstraints= {@UniqueConstraint(columnNames= {"user_id", "authority"})})
-public class Role implements Serializable {
+@Table(name = "roles")
+public class Role  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String authority;
+	@Column(length =  60)
+	private String descricao;
 
+	public Role() {}
+
+	public Role(String descricao) {
+		this.descricao = descricao;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -27,17 +32,14 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-	public String getAuthority() {
-		return authority;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
+	
 
 }
